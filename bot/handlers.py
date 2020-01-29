@@ -15,8 +15,7 @@ def register(handler, **options):
         options.update({
             'callback': function
         })
-        h = handler(**options)
-        REGISTERED_HANDLERS.append(h)
+        REGISTERED_HANDLERS.append(handler(**options))
 
         def wrapper(*args, **kwargs):
             return function(*args, **kwargs)
