@@ -5,7 +5,7 @@ from typing import Optional
 
 
 def read_config(config_path: str,
-                required_fields: List[str] = None) -> ConfigParser:
+                required_fields: Optional[List[str]] = None) -> ConfigParser:
     config = ConfigParser()
     config.read(config_path)
 
@@ -19,7 +19,7 @@ def read_config(config_path: str,
 
 def make_logger(debug: bool = False,
                 name: Optional[str] = None,
-                formatter: logging.Formatter = None) -> logging.Logger:
+                formatter: Optional[logging.Formatter] = None) -> logging.Logger:
     if not formatter:
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                                       datefmt='%Y-%m-%d-%H:%M:%S')
