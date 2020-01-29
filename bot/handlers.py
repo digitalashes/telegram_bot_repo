@@ -27,7 +27,7 @@ def register(handler, **options):
 
 
 @register(CommandHandler, **{'command': 'start'})
-def start(update, context):
+def _(update, context):
     db = context.bot.db
     user_data = update.effective_user.to_dict()
     add_user(db, user_data)
@@ -35,14 +35,19 @@ def start(update, context):
 
 
 @register(CommandHandler, **{'command': 'stop'})
-def stop(update, context):
+def _(update, context):
     db = context.bot.db
     delete_user(db, update.effective_user.id)
     update.message.reply_text('Stop!')
 
 
+@register(MessageHandler, **{'filters': Filters.text})
+def _(update, context):
+    update.message.reply_text(update.message.text)
+
+
 @register(MessageHandler, **{'filters': (Filters.document.image | Filters.photo)})
-def echo(update, context):
+def _(update, context):
     try:
         instance = update.message.photo[-1]
     except IndexError:
