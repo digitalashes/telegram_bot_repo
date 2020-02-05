@@ -10,6 +10,7 @@ from .handlers import WebHookHandler
 
 async def init_db(app):
     db = sqlite3.connect(app['db_name'], check_same_thread=False)
+    db.row_factory = sqlite3.Row
     check_db(db)
     app['dispatcher'].bot.db = db
 
