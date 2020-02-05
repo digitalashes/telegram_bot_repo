@@ -8,6 +8,12 @@ def add_user(conn: SqliteConnection,
     external_id = user_data.pop('id')
     user_data['external_id'] = external_id
 
+    for field in ('first_name', 'last_name', 'username'):
+        value = user_data.get(field)
+        if value:
+            continue
+        user_data[field] = ''
+
     with closing(conn.cursor()) as cursor:
         cursor.execute("""
             insert into users(external_id, first_name, last_name, username, is_bot)
