@@ -16,6 +16,14 @@ create table if not exists users
   is_bot              integer  not null 
 );
 
+create table if not exists images
+(
+  id                  integer primary key autoincrement,
+  path                text     not null,
+  user_id             integer  not null,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
 create unique index if not exists users_id_uindex
   on users (id);
 create unique index if not exists users_external_id_uindex
