@@ -21,7 +21,7 @@ create table if not exists images
   id                  integer primary key autoincrement,
   path                text     not null,
   user_id             integer  not null,
-  FOREIGN KEY(user_id) REFERENCES users(id)
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 create unique index if not exists users_id_uindex
