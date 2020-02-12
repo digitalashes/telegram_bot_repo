@@ -1,4 +1,5 @@
 import pathlib
+import random
 
 from telegram.ext import CommandHandler
 from telegram.ext import Filters
@@ -56,6 +57,34 @@ def _(update, context):
     user = get_user(db, update.effective_user.id)
     images = get_images(db, user.id)
     update.message.reply_text(f'You already have {len(images)} image(s) with index {[image.id for image in images]}')
+
+
+@register(CommandHandler, **{'command': 'get_random_image'})
+def _(update, context):
+    db = context.bot.db
+    user = get_user(db, update.effective_user.id)
+    images = get_images(db, user.id)
+    if not images:
+        update.message.reply_text('You don\'t have any images')
+        return
+    photo = random.choice(images)
+    with open(photo.path, 'rb') as file:
+        update.message.reply_photo(file)
+
+
+@register(MessageHandler, **{'filters': Filters.regex(r'^(/get_image_[\d]+)$')})
+def _(update, context):
+    db = context.bot.db
+    user = get_user(db, update.effective_user.id)
+    image_id = update.message.text.split('_')[-1]
+    image = get_image(db, user.id, image_id)
+
+    if not image:
+        update.message.reply_text(f'Image does not exists.')
+        return
+
+    with open(image.path, 'rb') as file:
+        update.message.reply_photo(file)
 
 
 @register(MessageHandler, **{'filters': Filters.regex(r'^(/delete_image_[\d]+)$')})
