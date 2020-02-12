@@ -18,6 +18,7 @@ class Settings:
     TOKEN = CONFIG.get(CONFIG.default_section, 'BotToken')
     WEB_HOOK_URL = CONFIG.get(CONFIG.default_section, 'WebHookUrl')
     DEBUG = CONFIG.getboolean(CONFIG.default_section, 'Debug')
+    PROXY_URL = CONFIG.get(CONFIG.default_section, 'ProxyUrl')
     MEDIA = 'media'
 
 

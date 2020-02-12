@@ -4,15 +4,21 @@ from threading import Thread
 
 from telegram.bot import Bot
 from telegram.ext import Dispatcher
+from telegram.utils.request import Request
 
 from bot.handlers import REGISTERED_HANDLERS
 from bot.utils import setup_web_hook
+from config import settings
 
 
 def setup(token: str,
           web_hook_url: str,
           logger: Logger) -> Dispatcher:
-    bot = Bot(token)
+    request = None
+    if settings.PROXY_URL:
+        request = Request(proxy_url=settings.PROXY_URL)
+
+    bot = Bot(token, request=request)
     bot.logger = logger
     setup_web_hook(bot, web_hook_url)
 
