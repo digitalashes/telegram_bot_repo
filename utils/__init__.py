@@ -37,3 +37,10 @@ def make_logger(debug: bool = False,
     logger.addHandler(ch)
 
     return logger
+
+
+def pixel_gen(size, pixels):
+    width, height = size
+    for x in range(width):
+        for y in range(height):
+            yield (x, y), list(pixels[x, y])
